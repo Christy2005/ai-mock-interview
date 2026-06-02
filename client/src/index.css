@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #f6f7fb;
+  color: #1f2937;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* SIDEBAR AREA */
+.sidebar {
+  width: 240px;
+  background: #111827;
+  color: white;
+}
+
+/* MAIN SECTION */
+.main-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVBAR */
+.navbar {
+  height: 60px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* PAGE AREA */
+.page-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* CARD STYLE */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}

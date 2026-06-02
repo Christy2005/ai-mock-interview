@@ -1,0 +1,10 @@
+.navbar-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

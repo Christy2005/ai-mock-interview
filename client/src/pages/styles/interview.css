@@ -1,0 +1,20 @@
+.question-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.timer {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ef4444;
+}
