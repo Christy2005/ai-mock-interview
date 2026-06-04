@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import InterviewSetup from "./pages/InterviewSetup";
-import InterviewRoom from "./pages/InterviewRoom";
-import EvaluationReport from "./pages/EvaluationReport";
-import PracticePage from "./pages/PracticePage";
-import HistoryPage from "./pages/HistoryPage";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import InterviewSetup from "./pages/InterviewSetup.jsx";
+import InterviewRoom from "./pages/InterviewRoom.jsx";
+import EvaluationReport from "./pages/EvaluationReport.jsx";
+import PracticePage from "./pages/PracticePage.jsx";
+import HistoryPage from "./pages/HistoryPage.jsx";
 
 function App() {
   return (
