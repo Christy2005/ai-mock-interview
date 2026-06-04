@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "../layouts/Dashboardlayout";
+import DashboardLayout from "../layouts/Dashboardlayout.jsx";
 import { PieChart, Pie, Cell,Legend } from "recharts";
 import "./styles/dashboard.css";
 import API from "../api/auth";

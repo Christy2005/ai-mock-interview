@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../api/auth";
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layouts/DashboardLayout.jsx";
 import { useNavigate } from "react-router-dom";
 import "./styles/history.css";
 

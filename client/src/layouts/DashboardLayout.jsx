@@ -1,5 +1,5 @@
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/sidebar.jsx";
+import Navbar from "../components/navbar.jsx";
 import {Link} from "react-router-dom";
 import ChatBot from "../components/ChatBot";
 

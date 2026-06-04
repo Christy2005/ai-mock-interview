@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layouts/DashboardLayout.jsx";
 import API from "../api/auth";
 import "./styles/practice.css";
 import jsPDF from "jspdf";

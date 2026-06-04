@@ -1,7 +1,7 @@
 import { useEffect, useState,useRef } from "react";
 import { useParams } from "react-router-dom";
 import API from "../api/auth";
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layouts/DashboardLayout.jsx";
 import {useNavigate} from "react-router-dom"
 import "./styles/interview.css";
 
