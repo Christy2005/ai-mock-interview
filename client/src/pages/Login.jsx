@@ -1,7 +1,7 @@
 import API from "../api/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Register from "./Register"
+import Register from "./register"
 
 function Login() {
   const [email, setEmail] = useState("");
