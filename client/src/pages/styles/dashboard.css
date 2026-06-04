@@ -1,0 +1,27 @@
+.sidebar {
+  width: 220px;
+  transition: 0.3s;
+}
+
+.sidebar.closed {
+  width: 60px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 100px;
+}
+
+.card {
+  padding: 100px;
+  background: #1e1e2f;
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}

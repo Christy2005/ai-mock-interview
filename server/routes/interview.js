@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/create-with-questions", verifyToken,async (req, res) => {
   //req.user=decodedUser;
-  const userId=req.user.id;
+  const userId=req.user.userId;
   const { role, domain, difficulty, duration, questions } = req.body;
   try {
     // 1. create interview
@@ -38,13 +38,15 @@ router.post("/create-with-questions", verifyToken,async (req, res) => {
 router.get("/history", verifyToken, async (req, res) => {
 
   try {
-
+    const userId=req.user.userId;
     const result = await pool.query(
       `SELECT i.id, i.role, i.domain, i.created_at,
               e.technical_score, e.communication_score, e.confidence_score
        FROM interviews i
        LEFT JOIN evaluations e ON i.id = e.interview_id
-       ORDER BY i.id DESC`
+       where i.user_id=$1
+       ORDER BY i.id DESC`,
+       [userId]
     );
     /*const result = await pool.query(
       `SELECT * FROM interviews ORDER BY id DESC`
@@ -100,6 +102,47 @@ router.post("/save-answer", async (req, res) => {
 
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+router.delete("/:id", verifyToken, async (req, res) => {
+  const interviewId = req.params.id;
+ const userId=req.user.userId;
+  try {
+
+    // delete answers
+    await pool.query(
+      `DELETE FROM answers WHERE interview_id = $1`,
+      [interviewId]
+    );
+
+    // delete questions
+    await pool.query(
+      `DELETE FROM questions WHERE interview_id = $1`,
+      [interviewId]
+    );
+
+    // delete evaluations
+    await pool.query(
+      `DELETE FROM evaluations WHERE interview_id = $1`,
+      [interviewId]
+    );
+
+    // delete interview
+    await pool.query(
+      `DELETE FROM interviews WHERE id = $1 AND user_id=$2`,
+      [interviewId,userId]
+    );
+
+    res.json({
+      message: "Interview deleted"
+    });
+
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      error: "Delete failed"
+    });
   }
 });
 

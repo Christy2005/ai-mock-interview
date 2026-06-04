@@ -1,24 +1,52 @@
 .sidebar {
+  
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+
+  background: #0f172a;
+  color: white;
+
   display: flex;
   flex-direction: column;
-  padding: 20px;
-}
 
-.sidebar a {
-  color: #cbd5e1;
-  text-decoration: none;
+  padding: 20px;
+  transition: 0.3s ease;
+}
+.sidebar h2 {
+  margin-top: 40px;   /* pushes text below hamburger */
+  margin-bottom: 20px;
+}
+.sidebar p {
+  cursor: pointer;        /* ✔ makes it clickable */
   padding: 10px;
   border-radius: 8px;
-  margin-bottom: 8px;
   transition: 0.2s;
 }
 
-.sidebar a:hover {
+.sidebar p:hover {
   background: #1f2937;
   color: white;
 }
+.sidebar .active {   background: #2563eb;   color: white; }
 
-.sidebar .active {
-  background: #2563eb;
-  color: white;
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.hamburger {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 17px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  color: red;
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../api/auth";
 import "./chat.css";
+import ReactMarkdown from "react-markdown";
 
 function ChatBot() {
 
@@ -119,7 +120,10 @@ function ChatBot() {
                         : "black"
                   }}
                 >
-                  {msg.text}
+                  <ReactMarkdown>
+                    {msg.text}
+                  </ReactMarkdown>
+                  
                 </span>
               </div>
             ))}

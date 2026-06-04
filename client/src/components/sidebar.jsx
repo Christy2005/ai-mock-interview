@@ -1,25 +1,36 @@
-import { Link } from "react-router-dom";
-import "../layouts/navbar.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../layouts/sidebar.css";
 
 function Sidebar() {
-  return (
-    <div /*style={{
-      width: "220px",
-      height: "100vh",
-      background: "#111827",
-      color: "white",
-      padding: "20px"
-    }}*/ className="sidebar">
-      <h2>AI Interview</h2>
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const navigate = useNavigate();
 
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        <li><Link to="/dashboard">Dashboard</Link></li>
-        <li><Link to="/setup">Start Interview</Link></li>
-        <li><Link to="/history">Interview History</Link></li>
-        <li><Link to="/feedback">Feedback Center</Link></li>
-        <li><Link to="/practice">Practice Session</Link></li>
-      </ul>
-    </div>
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
+  };
+
+  return (
+    <>
+      {/* Hamburger */}
+      <div>
+      <button className="hamburger" onClick={toggleSidebar}>
+        ☰
+      </button>
+     </div>
+      <div className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
+        <br />
+        <br />
+        <h2>AI Interview</h2>
+
+        <nav>
+          <p onClick={() => navigate("/dashboard")}>Dashboard</p>
+          <p onClick={() => navigate("/setup")}>Start Interview</p>
+          <p onClick={() => navigate("/practice")}>Practice</p>
+          <p onClick={() => navigate("/history")}>Interview History</p>
+        </nav>
+      </div>
+    </>
   );
 }
 

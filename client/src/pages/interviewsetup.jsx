@@ -12,9 +12,12 @@ function InterviewSetup() {
   const [domain, setDomain] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
   const [duration, setDuration] = useState(15);
-
+  const [loading,setLoading]=useState(false);
   const startInterview = async () => {
+    setLoading(true);
   try {
+   // await enterFullscreen();
+   
     const token = localStorage.getItem("token");
 
     const res = await API.post(
@@ -50,11 +53,13 @@ function InterviewSetup() {
         }
       }
     );
-
+    localStorage.setItem("latestInterviewId", interviewRes.data.id);
     navigate(`/interview/${interviewRes.data.id}`);
 
   } catch (err) {
     console.log(err);
+  }finally{
+    setLoading(false);
   }
 };
 
@@ -87,8 +92,8 @@ function InterviewSetup() {
         <option value={45}>45 mins</option>
       </select>
 
-      <button onClick={startInterview}>
-        Start Interview
+      <button onClick={startInterview} disabled={loading}>
+       {loading? "starting interview...":"Start Interview"} 
       </button>
     </div>
     </DashboardLayout>

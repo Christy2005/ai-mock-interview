@@ -72,5 +72,42 @@ try {
     res.status(500).json({ error: "AI generation failed" });
   }
 });
+router.post("/generate-answer", async (req, res) => {
+
+  const { question } = req.body;
+
+  try {
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash"
+    });
+
+    const prompt = `
+You are an expert technical interviewer.
+
+Provide a concise ideal answer for this interview question:
+
+"${question}"
+
+Return ONLY the answer text.
+`;
+
+    const result = await model.generateContent(prompt);
+
+    const response = await result.response;
+
+    const answer = response.text().trim();
+
+    res.json({ answer });
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      error: "Failed to generate answer"
+    });
+  }
+});
 
 module.exports = router;

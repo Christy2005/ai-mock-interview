@@ -29,12 +29,25 @@ function HistoryPage() {
       console.log(err);
     }
   };
+  const deleteInterview=async(id)=>{
+    try{
+      await API.delete(`/interview/${id}`,{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      setHistory(history.filter(item => item.id !== id));
+    }catch (err) {
+    console.log(err);
+  }
+  };
 
   return (
     <DashboardLayout>
       <div className="hisory-card">
 
       <h1>Interview History</h1>
+      
 
       {history.map((item) => (
 
@@ -42,25 +55,30 @@ function HistoryPage() {
 
           <h3>{item.role} - {item.domain}</h3>
 
-          <p>Interview ID: {item.id}</p>
-
-          <p>
+           <p>
             Scores:
             {item.technical_score ?? "Pending"} /
             {item.communication_score ?? "Pending"} /
             {item.confidence_score ?? "Pending"}
           </p>
-
+        <div className="button-container">
           <button onClick={() =>
             navigate(`/evaluation/${item.id}`)
           }>
             View Report
           </button>
-
+         
+          <button onClick={()=>deleteInterview(item.id)}>
+            Delete
+          </button>
+          </div>
           <hr />
 
         </div>
       ))}
+      {history.length==0 &&(
+        <p>No interview history found</p>
+      )}
     </div>
     </DashboardLayout>
   );

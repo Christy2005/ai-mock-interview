@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { useParams } from "react-router-dom";
 import API from "../api/auth";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -14,6 +14,10 @@ function InterviewRoom() {
   const [loading, setLoading] = useState(false);
   const [ended, setEnded] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
+  const [isRecording, setIsRecording] = useState(false);
+  const recognitionRef=useRef(null);
+  const [saving,setSaving]=useState(false);
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
 
   useEffect(() => {
     fetchQuestions();
@@ -51,6 +55,7 @@ useEffect(() => {
       console.log(err);
     }
   };
+  
 
   // ---------------- SPEECH TO TEXT ----------------
   const startListening = (index) => {
@@ -64,27 +69,49 @@ useEffect(() => {
 
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
-    recognition.continuous = false;
-    recognition.interimResults = false;
-
+    recognition.continuous = true;
+    recognition.interimResults = true;
+   let finalTranscript="";
     recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
+       let transcript = "";
 
-      setAnswer((prev) => ({
-        ...prev,
-        [index]: transcript,
-      }));
+    for (let i = 0; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    finalTranscript=transcript;
+    setAnswer((prev) => ({
+      ...prev,
+      [currentIndex]: transcript,
+    }));
     };
 
     recognition.onerror = (err) => {
       console.log("Mic error:", err);
     };
-
-    recognition.start();
+  recognition.start();
+  recognitionRef.current = recognition;
+  setIsRecording(true);
   };
 
+  const stopRecording = () => {
+  if (recognitionRef.current) {
+    recognitionRef.current.stop();
+    recognitionRef.current = null;
+  }
+
+  setIsRecording(false);
+};
+const handleRecordToggle = () => {
+  if (isRecording) {
+    stopRecording();
+  } else {
+    startListening();
+  }
+};
   // ---------------- SAVE ANSWER ----------------
   const saveAnswer = async () => {
+    if(saving) return;
+    setSaving(true);
   setLoading(true);
 
   try {
@@ -105,6 +132,7 @@ useEffect(() => {
     console.log(err);
   } finally {
     setLoading(false);
+    setSaving(false);
   }
 };
 const finishInterview = async () => {
@@ -125,6 +153,10 @@ const finishInterview = async () => {
 
   // ---------------- NEXT QUESTION ----------------
   const handleNext = async () => {
+     if (isNextDisabled) return; // 🔥 prevent spam clicks
+
+  setIsNextDisabled(true);
+
     try {
       await saveAnswer();
       const next=currentIndex+1;
@@ -135,15 +167,37 @@ const finishInterview = async () => {
         setCurrentIndex(next);
     } catch (err) {
       console.log(err);
+    }finally{
+      setIsNextDisabled(false);
     }
   };
+  const speakQuestion = (text) => {
+
+  const speech = new SpeechSynthesisUtterance(text);
+
+  speech.lang = "en-US";
+  speech.rate = 1;
+  speech.pitch = 1;
+
+  window.speechSynthesis.speak(speech);
+};
+useEffect(() => {
+
+  if (questions.length > 0) {
+
+    window.speechSynthesis.cancel();
+
+    speakQuestion(questions[currentIndex]);
+
+  }
+
+}, [currentIndex, questions]);
 
   // ---------------- UI ----------------
   return (
     <DashboardLayout>
       <h1>Interview Room</h1>
-      <h3>Interview ID: {id}</h3>
-
+      
       {/* LOADING QUESTIONS */}
       {questions.length === 0 && <p>Loading questions...</p>}
 
@@ -172,17 +226,41 @@ const finishInterview = async () => {
           />
          </div>
           <br />
+         <div className="button-container">
+          <button
+          onClick={handleRecordToggle}
+          style={{
+            background: isRecording ? "red" : "green",
+            color: "white",
+          }}
+        >
+          {isRecording ? "⏹ Stop Recording" : "🎤 Start Recording"}
+        </button>
 
-          <button onClick={() => startListening(currentIndex)}>
-            🎤 Speak Answer
-          </button>
-
-          <button onClick={handleNext} disabled={loading}>
-            {loading ? "Saving..." : "Next Question"}
-          </button>
+          <button onClick={handleNext} disabled={saving || isNextDisabled}>
+  {saving
+    ? "Saving..."
+    : currentIndex === questions.length - 1
+    ? "Submit"
+    : "Next"}
+</button>
+<br />
+          </div>
+          <div className="question-nav">
+          {questions.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentIndex(i)}
+              className={i === currentIndex ? "active" : ""}
+            >
+              {i + 1}
+            </button>
+          ))}
         </div>
+        </div>
+        
       )}
-
+    
       {/* END SCREEN */}
       {ended && (
         <div>

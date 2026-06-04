@@ -1,17 +1,16 @@
-import "../layouts/sidebar.css";
+import "../layouts/navbar.css";
+import {useNavigate} from "react-router-dom";
 function Navbar() {
+const navigate=useNavigate();
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  navigate("/");
+};
   return (
-    <div /*style={{
-      height: "60px",
-      background: "#f3f4f6",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      padding: "0 20px"
-    }}*/ className="navbar">
-      <h3>Dashboard</h3>
+    <div  className="navbar">
+      <h3 className="navbar-title">Dashboard</h3>
 
-      <button>Logout</button>
+      <button onClick={handleLogout} className="navbar-right">Logout</button>
     </div>
   );
 }
