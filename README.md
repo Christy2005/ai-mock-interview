@@ -1,8 +1,10 @@
 # AI Mock Interview Platform
 
 An AI-powered mock interview platform that helps users practice technical interviews with real-time AI-generated questions, speech-based answering, performance evaluation, and detailed feedback reports.
+
 Live Demo
-project link: ai-mock-interview-eybv.vercel.app
+
+project link: https://ai-mock-interview-eybv.vercel.app
 ---
 
 ## Features
